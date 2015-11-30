@@ -1,4 +1,4 @@
-package org.telosys.studio1;
+package org.telosys.studio1.view.files;
 
 import java.io.File;
 
@@ -102,4 +102,12 @@ public class SimpleFileTreeItem extends TreeItem<File> {
 	private boolean isFirstTimeChildren = true;
 	private boolean isFirstTimeLeaf = true;
 	private boolean isLeaf;
+	
+	
+	@Override
+	public String toString() {
+		return "JUST FOR TEST";
+	}
+	
+	
 }

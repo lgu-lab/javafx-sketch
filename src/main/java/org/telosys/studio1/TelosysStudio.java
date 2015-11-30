@@ -2,15 +2,22 @@ package org.telosys.studio1;
 
 import java.io.File;
 
+import org.telosys.studio1.commons.ViewUtil;
+import org.telosys.studio1.component.MenuBarBuilder;
+import org.telosys.studio1.component.WorkspaceBuilder;
+import org.telosys.studio1.view.config.ConfigController;
+import org.telosys.studio1.view.files.ProjectFile;
+import org.telosys.studio1.view.files.SimpleFileTreeItem;
+
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.SplitPane;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.ToolBar;
 import javafx.scene.control.TreeView;
@@ -22,38 +29,48 @@ public class TelosysStudio extends Application {
 	
 	private final static String WORKSPACE_PATH = "D:/TMP/FakeWorkspace";
 	
-	private MenuBar buildMenuBar() {
-		/* Create a new MenuBar. */
-		MenuBar menuBar = new MenuBar();
-		/* Create new sub menus. */
-		Menu menuFile = new Menu("File");
-		Menu menuHelp = new Menu("Help");
-		MenuItem about = new MenuItem("About");
-		about.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				/*
-				 * Implement dialog to be prompted when users asks for
-				 * details.
-				 */
-			}
-		});
-		menuHelp.getItems().add(about);
-
-		/* Adding all sub menus at ones to a MenuBar. */
-		menuBar.getMenus().addAll(menuFile, menuHelp);
-		
-		return menuBar ;
-	}
+	private TabPane _tabPane = null ;
+	private MainActions _mainActions = null ;
+	
+//	private MenuBar buildMenuBar() {
+//		/* Create a new MenuBar. */
+//		MenuBar menuBar = new MenuBar();
+//		/* Create new sub menus. */
+//		Menu menuFile = new Menu("File");
+//		Menu menuHelp = new Menu("Help");
+//		MenuItem about = new MenuItem("About");
+//		about.setOnAction(new EventHandler<ActionEvent>() {
+//			@Override
+//			public void handle(ActionEvent event) {
+//				/*
+//				 * Implement dialog to be prompted when users asks for
+//				 * details.
+//				 */
+//			}
+//		});
+//		menuHelp.getItems().add(about);
+//
+//		/* Adding all sub menus at ones to a MenuBar. */
+//		menuBar.getMenus().addAll(menuFile, menuHelp);
+//		
+//		return menuBar ;
+//	}
 	
 	private ToolBar buildToolBar() {
 		/* Create a button. */
 		Button btn = new Button();
-		btn.setText("Say Hello World.");
+		btn.setText("Add tab");
 		btn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				System.out.println("Hello World!");
+				System.out.println("Add tab");
+				
+				Node view = ViewUtil.loadView("Config.fxml", new ConfigController() );
+				
+				Tab tab = new Tab();
+	            tab.setText("Configuration");
+	            tab.setContent(view);
+				_tabPane.getTabs().add(tab);
 			}
 		});
 
@@ -63,7 +80,9 @@ public class TelosysStudio extends Application {
 	}
 	
 	private VBox buildPartTop() {
-		MenuBar menuBar = buildMenuBar();
+		MenuBarBuilder menuBarBuilder = new MenuBarBuilder(_mainActions);
+		//MenuBar menuBar = buildMenuBar();
+		MenuBar menuBar = menuBarBuilder.buildMenuBar();
 		ToolBar tools = buildToolBar();
 		/* Create a new VBox and add the menu as well as the tools. */
 		VBox menus = new VBox();
@@ -75,13 +94,17 @@ public class TelosysStudio extends Application {
 		/*
 		 * Adding a TreeView to the very left of the application window.
 		 */
-		TreeView<File> fileTreeView = new TreeView<File>(
-				new SimpleFileTreeItem(new File(WORKSPACE_PATH)));
+//		TreeView<File> fileTreeView = new TreeView<File>(
+//				new SimpleFileTreeItem(new File(WORKSPACE_PATH)));
+
+		WorkspaceBuilder tvb = new WorkspaceBuilder(_mainActions);
+		TreeView<ProjectFile> fileTreeView = tvb.buildTreeView(WORKSPACE_PATH);
+		_tabPane = new TabPane();
 
 		/* Creating a SplitPane and adding the fileView. */
 		SplitPane splitPane = new SplitPane();
 		splitPane.getItems().add(fileTreeView);
-		splitPane.getItems().add(new TabPane());
+		splitPane.getItems().add(_tabPane);
 		
 		return splitPane ;
 	}
@@ -89,17 +112,20 @@ public class TelosysStudio extends Application {
 	@Override
 	public void start(Stage primaryStage) {
  
-			VBox menus = buildPartTop();
+		_mainActions = new MainActions() ;
+		
+		VBox menus = buildPartTop();
  
-			SplitPane splitPane = buildPartMiddle();
+		SplitPane splitPane = buildPartMiddle();
 			
-			/* Create a root node as BorderPane. */
-			BorderPane root = new BorderPane();
+		/* Create a root node as BorderPane. */
+		BorderPane root = new BorderPane();
  
-			/* Adding the menus as well as the content pane to the root node. */
-			root.setTop(menus);
-			root.setCenter(splitPane);
+		/* Adding the menus as well as the content pane to the root node. */
+		root.setTop(menus);
+		root.setCenter(splitPane);
  
+		_mainActions.init(_tabPane);
 		try {
 			/*
 			 * Setting the root node of a scene as well as the applications CSS
