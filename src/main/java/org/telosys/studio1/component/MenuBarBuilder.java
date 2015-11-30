@@ -7,6 +7,7 @@ import javafx.event.EventHandler;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.SeparatorMenuItem;
 
 public class MenuBarBuilder {
 	
@@ -22,29 +23,8 @@ public class MenuBarBuilder {
 		MenuBar menuBar = new MenuBar();
 		
 		/* Create new sub menus. */
-		//Menu menuFile = new Menu("File");
-		menuBar.getMenus().add(new Menu("File"));
-		
-		//Menu configurationMenu = new Menu("Configuration");
+		menuBar.getMenus().add( buildFileMenu() );
 		menuBar.getMenus().add( buildConfigurationMenu() );
-		
-//		Menu menuHelp = new Menu("Help");
-//		
-//		MenuItem about = new MenuItem("About");
-//		about.setOnAction(new EventHandler<ActionEvent>() {
-//			@Override
-//			public void handle(ActionEvent event) {
-//				/*
-//				 * Implement dialog to be prompted when users asks for
-//				 * details.
-//				 */
-//			}
-//		});
-//		menuHelp.getItems().add(about);
-//
-//		/* Adding all sub menus at ones to a MenuBar. */
-//		menuBar.getMenus().addAll(menuFile, menuHelp);
-		
 		menuBar.getMenus().add( buildHelpMenu() );
 		
 		return menuBar ;
@@ -59,6 +39,70 @@ public class MenuBarBuilder {
 			}
 		});
 		return menu ;
+	}
+
+	private Menu buildFileMenu() {
+		Menu menu = new Menu("File");
+		
+		MenuItem menuItem ;
+		
+		//--- 
+		menuItem = new MenuItem("Close");
+		menuItem.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+            public void handle(ActionEvent t) {
+				_mainActions.closeCurrentFile();
+            }
+		});
+		menu.getItems().add(menuItem);
+
+		//--- 
+		menuItem = new MenuItem("Close All");
+		menuItem.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+            public void handle(ActionEvent t) {
+				_mainActions.closeAll();
+            }
+		});
+		menu.getItems().add(menuItem);
+
+		//--- 
+		menu.getItems().add( new SeparatorMenuItem() );
+		
+		//--- 
+		menuItem = new MenuItem("Save");
+		menuItem.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+            public void handle(ActionEvent t) {
+				_mainActions.saveCurrentFile();
+            }
+		});
+		menu.getItems().add(menuItem);
+
+		//--- 
+		menuItem = new MenuItem("Save All");
+		menuItem.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+            public void handle(ActionEvent t) {
+				//_mainActions.saveAll();
+            }
+		});
+		menu.getItems().add(menuItem);
+
+		//--- 
+		menu.getItems().add( new SeparatorMenuItem() );
+		
+		//--- 
+		menuItem = new MenuItem("Exit");
+		menuItem.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+            public void handle(ActionEvent t) {
+				_mainActions.exit();
+            }
+		});
+		menu.getItems().add(menuItem);
+		
+		return menu;
 	}
 
 	private Menu buildHelpMenu() {

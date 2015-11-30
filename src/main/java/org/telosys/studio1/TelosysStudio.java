@@ -1,13 +1,10 @@
 package org.telosys.studio1;
 
-import java.io.File;
-
 import org.telosys.studio1.commons.ViewUtil;
 import org.telosys.studio1.component.MenuBarBuilder;
 import org.telosys.studio1.component.WorkspaceBuilder;
 import org.telosys.studio1.view.config.ConfigController;
 import org.telosys.studio1.view.files.ProjectFile;
-import org.telosys.studio1.view.files.SimpleFileTreeItem;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -31,30 +28,6 @@ public class TelosysStudio extends Application {
 	
 	private TabPane _tabPane = null ;
 	private MainActions _mainActions = null ;
-	
-//	private MenuBar buildMenuBar() {
-//		/* Create a new MenuBar. */
-//		MenuBar menuBar = new MenuBar();
-//		/* Create new sub menus. */
-//		Menu menuFile = new Menu("File");
-//		Menu menuHelp = new Menu("Help");
-//		MenuItem about = new MenuItem("About");
-//		about.setOnAction(new EventHandler<ActionEvent>() {
-//			@Override
-//			public void handle(ActionEvent event) {
-//				/*
-//				 * Implement dialog to be prompted when users asks for
-//				 * details.
-//				 */
-//			}
-//		});
-//		menuHelp.getItems().add(about);
-//
-//		/* Adding all sub menus at ones to a MenuBar. */
-//		menuBar.getMenus().addAll(menuFile, menuHelp);
-//		
-//		return menuBar ;
-//	}
 	
 	private ToolBar buildToolBar() {
 		/* Create a button. */
@@ -125,7 +98,7 @@ public class TelosysStudio extends Application {
 		root.setTop(menus);
 		root.setCenter(splitPane);
  
-		_mainActions.init(_tabPane);
+		_mainActions.init(primaryStage, _tabPane);
 		try {
 			/*
 			 * Setting the root node of a scene as well as the applications CSS

@@ -43,7 +43,7 @@ public class WorkspaceBuilder {
 		            File file = item.getValue().getFile() ;
 		            System.out.println("Double click on file : " + file.getAbsolutePath() );
 		            if ( file.isFile() ) {
-			            _mainActions.showFileEditorView(file);
+			            _mainActions.showTextEditorView(file);
 		            }
 		        }
 		    }
