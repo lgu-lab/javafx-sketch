@@ -3,7 +3,7 @@ package org.telosys.studio1;
 import org.telosys.studio1.commons.ViewUtil;
 import org.telosys.studio1.component.MenuBarBuilder;
 import org.telosys.studio1.component.WorkspaceBuilder;
-import org.telosys.studio1.view.config.ConfigController;
+import org.telosys.studio1.view.configuration.ConfigController;
 import org.telosys.studio1.view.files.ProjectFile;
 
 import javafx.application.Application;
@@ -98,7 +98,7 @@ public class TelosysStudio extends Application {
 		root.setTop(menus);
 		root.setCenter(splitPane);
  
-		_mainActions.init(primaryStage, _tabPane);
+		_mainActions.init(WORKSPACE_PATH, primaryStage, _tabPane);
 		try {
 			/*
 			 * Setting the root node of a scene as well as the applications CSS

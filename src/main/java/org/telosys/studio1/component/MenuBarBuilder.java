@@ -31,13 +31,30 @@ public class MenuBarBuilder {
 	}
 	
 	private Menu buildConfigurationMenu() {
-		Menu menu = new Menu("Configuration");
-		menu.setOnAction(new EventHandler<ActionEvent>() {
+		Menu menu = new Menu("Project");
+		
+		MenuItem menuItem ;
+		
+		//--- 
+		menuItem = new MenuItem("Configuration");
+		menuItem.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
 				_mainActions.showConfigurationView();
 			}
 		});
+		menu.getItems().add(menuItem);
+		
+		//--- 
+		menuItem = new MenuItem("Databases");
+		menuItem.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				_mainActions.showDatabasesView();
+			}
+		});
+		menu.getItems().add(menuItem);
+		
 		return menu ;
 	}
 
@@ -93,6 +110,32 @@ public class MenuBarBuilder {
 		menu.getItems().add( new SeparatorMenuItem() );
 		
 		//--- 
+		menuItem = new MenuItem("Refresh");
+		menuItem.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+            public void handle(ActionEvent t) {
+				// TODO
+            }
+		});
+		menu.getItems().add(menuItem);
+		
+		//--- 
+		menu.getItems().add( new SeparatorMenuItem() );
+		
+		//--- 
+		menuItem = new MenuItem("Switch Workspace");
+		menuItem.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+            public void handle(ActionEvent t) {
+				// TODO
+            }
+		});
+		menu.getItems().add(menuItem);
+		
+		//--- 
+		menu.getItems().add( new SeparatorMenuItem() );
+		
+		//--- 
 		menuItem = new MenuItem("Exit");
 		menuItem.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -108,17 +151,29 @@ public class MenuBarBuilder {
 	private Menu buildHelpMenu() {
 		Menu menuHelp = new Menu("Help");
 		
-		MenuItem about = new MenuItem("About");
-		about.setOnAction(new EventHandler<ActionEvent>() {
+		MenuItem menuItem ;
+		
+		//--- 
+		menuItem = new MenuItem("Status");
+		menuItem.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				/*
-				 * Implement dialog to be prompted when users asks for
-				 * details.
-				 */
+				_mainActions.status();
 			}
 		});
-		menuHelp.getItems().add(about);
+		menuHelp.getItems().add(menuItem);
+		
+		//--- 
+		menuItem = new MenuItem("About");
+		menuItem.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				_mainActions.about();
+			}
+		});
+		menuHelp.getItems().add(menuItem);
+		
+		
 		return menuHelp;
 	}
 }

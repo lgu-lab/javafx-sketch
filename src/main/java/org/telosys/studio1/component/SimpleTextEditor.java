@@ -6,12 +6,14 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 
+import org.telosys.studio1.commons.Editor;
+
 import javafx.scene.control.TextArea;
 
 /**
  *
  */
-public class SimpleTextEditor {
+public class SimpleTextEditor implements Editor {
 	
     private final TextArea textArea = new TextArea();
     private final File     file ;
@@ -25,26 +27,20 @@ public class SimpleTextEditor {
 		loadFileContent();
 	}
 
+    @Override
+    public File getFile() {
+        return file;
+    }
+    public TextArea getTextArea() {
+        return textArea;
+    }
 	public boolean isModified() {
         return modified;
     }
-    
     public void setModified(boolean modified) {
         this.modified = modified;
     }
 
-    public TextArea getTextArea() {
-        return textArea;
-    }
-
-//    public void setText(String text) {
-//        textArea.setText(text);
-//    }
-//    
-//    public String getText() {
-//        return textArea.getText();
-//    }
-    
     private void loadFileContent() {
         //String openFileName = file.getAbsolutePath();
         StringBuffer sb = new StringBuffer();
@@ -60,6 +56,7 @@ public class SimpleTextEditor {
         textArea.setText( sb.toString() );
     }
 
+    @Override
     public void saveFileContent() {
     	try ( FileOutputStream fos = new FileOutputStream(file);
     			BufferedOutputStream bos = new BufferedOutputStream(fos) ) {

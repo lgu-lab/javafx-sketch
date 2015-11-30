@@ -1,4 +1,4 @@
-package org.telosys.studio1.view.config;
+package org.telosys.studio1.view.databases;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -10,7 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 
-public class ConfigController extends FxmlController implements Initializable {
+public class DatabasesController extends FxmlController implements Initializable {
 
 	@FXML 
 	private Button myButton ;
