@@ -4,6 +4,8 @@ import java.io.File;
 
 import org.telosys.studio1.commons.Const;
 import org.telosys.studio1.commons.Editor;
+import org.telosys.studio1.commons.ParentView;
+import org.telosys.studio1.commons.ParentViewTab;
 import org.telosys.studio1.commons.ViewUtil;
 import org.telosys.studio1.component.SimpleTextEditor;
 import org.telosys.studio1.view.configuration.ConfigController;
@@ -86,11 +88,13 @@ public class MainActions {
 				showDatabasesView(file);
 			}
 			else {
-			    // Create the editor with this content and store it
-			    SimpleTextEditor editor = new SimpleTextEditor(file);
-
 			    // Create a tab to house the new editor
 			    Tab tab = new Tab();
+
+			    ParentView parentView = new ParentViewTab(tab);
+			    // Create the editor with this content and store it
+			    SimpleTextEditor editor = new SimpleTextEditor(parentView, file);
+
 			    tab.setUserData(editor);
 			    tab.setText(file.getName());
 			    tab.setContent(editor.getTextArea());
